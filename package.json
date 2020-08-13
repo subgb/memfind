@@ -15,5 +15,8 @@
     "cheatengine"
   ],
   "author": "shia",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "win32-api": "^9.5.0"
+  }
 }
