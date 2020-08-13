@@ -1,6 +1,6 @@
 {
   "name": "memfind",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,6 +14,10 @@
     "process",
     "cheatengine"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/subgb/memfind.git"
+  },
   "author": "shia",
   "license": "ISC",
   "dependencies": {
