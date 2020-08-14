@@ -73,6 +73,13 @@ class Block {
 		return this.baseBuffer[index];
 	}
 
+	printable(index=0) {
+		const code = this.baseBuffer[this.offset+index]||0;
+		if (code<=0x1f) return false;
+		if (code>=0x7f && code<=0x9f) return false;
+		return true;
+	}
+
 	traverse(iteratee) {
 		const len = this.baseSize;
 		for (let i=0; i<len; i++) {
