@@ -81,8 +81,8 @@ class Block {
 		}
 	}
 
-	equals(buf) {
-		for (let i=0, j=this.offset; i<buf.length; i++, j++) {
+	match(buf, index=0) {
+		for (let i=0, j=this.offset+index; i<buf.length; i++, j++) {
 			if (buf[i]!==this.baseBuffer[j]) return false;
 		}
 		return true;
