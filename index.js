@@ -80,7 +80,7 @@ class Block {
 		return true;
 	}
 
-	traverse(iteratee) {
+	scan(iteratee) {
 		const len = this.baseSize;
 		for (let i=0; i<len; i++) {
 			this.offset = i;
@@ -134,7 +134,7 @@ class MemoryFinder {
 		return (count<size)? buf.slice(0, count): buf;
 	}
 
-	*scan() {
+	*traverse() {
 		const info = new Struct(MEMORY_BASIC_INFORMATION)();
 		const size = info.ref().length;
 		let address = 0;
@@ -147,15 +147,25 @@ class MemoryFinder {
 		}
 	}
 
-	find(iteratee) {
-		for (const block of this.scan()) {
-			if (true===block.traverse(iteratee)) return;
+	scan(iteratee) {
+		for (const block of this.traverse()) {
+			if (true===block.scan(iteratee)) return;
 		}
+	}
+
+	find(pattern, cbFound) {
+		if (typeof pattern=='string') pattern=Buffer.from(pattern);
+		if (!Buffer.isBuffer(pattern)) throw new Error('first arg must be a string or buffer');
+		this.scan(block => {
+			if (block.match(pattern)) {
+				if (true===cbFound(block)) return true;
+			}
+		});
 	}
 
 	totalSize() {
 		let total = 0;
-		for (const {baseSize} of this.scan()) {
+		for (const {baseSize} of this.traverse()) {
 			total += baseSize;
 		}
 		return total;
