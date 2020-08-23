@@ -73,7 +73,16 @@ class Block {
 		return this.baseBuffer[index];
 	}
 
-	printable(index=0) {
+	getPrintable(left, right, encoding='binary') {
+		let start=0, end=0;
+		while (start>left && this.isPrintable(start-1)) start--;
+		while (end<right && this.isPrintable(end+1)) end++;
+		const len = end-start+1;
+		const content = this.get(start, len).toString(encoding);
+		return {content, start, end, len};
+	}
+
+	isPrintable(index=0) {
 		const code = this.baseBuffer[this.offset+index]||0;
 		if (code<=0x1f) return false;
 		if (code>=0x7f && code<=0x9f) return false;
